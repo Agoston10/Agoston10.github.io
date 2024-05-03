@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Game</title>
+    <style>
+        body {
+            background-color: #26ad90; /* Blueish green background color */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #gameContainer {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        #gameCanvas {
+            border: 2px solid black;
+            margin-right: 20px;
+        }
+        #story {
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="1000" height="800"></canvas>
+        <div id="story">
+            <h1>Story</h1>
+            <p>Welcome to the Simple Game! You are a brave adventurer exploring a mysterious world filled with danger.</p>
+            <p>Your mission is to navigate through the treacherous landscape, avoiding obstacles and enemies along the way.</p>
+            <p>Use the arrow keys to move your character. Be careful not to touch any enemies, or it's game over!</p>
+            <p>Collect points by surviving as long as you can. How high of a score can you achieve?</p>
+        </div>
+    </div>
+    <script>
+        // Get the canvas element and its context
+        var canvas = document.getElementById("gameCanvas");
+        var ctx = canvas.getContext("2d");
+
+        // Set up colors
+        var WHITE = "#FFFFFF";
+        var RED = "#FF0000";
+        var GREEN = "#00FF00";
+
+        // Set up font
+        ctx.font = "30px Arial";
+
+        // Set up the player
+        var player = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            width: 50,
+            height: 50,
+            speed: 2 // Reduced speed
+        };
+
+        // Set up enemies
+        var enemies = [];
+        var enemySpeed = 2;
+        var enemySpawnTimer = 0;
+        var enemySpawnInterval = 60; // Spawn a new enemy every 60 frames (1 second)
+
+        // Game state
+        var gameState = "menu"; // Possible states: "menu", "playing", "gameOver"
+        var score = 0;
+
+        // Function to draw the player
+        function drawPlayer() {
+            ctx.fillStyle = RED;
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        // Function to draw an enemy
+        function drawEnemy(enemy) {
+            ctx.fillStyle = GREEN;
+            ctx.fillRect(enemy.x, enemy.y, player.width, player.height);
+        }
+
+        // Function to update the game state
+        function update() {
+            if (gameState === "menu") {
+                // Menu logic here
+                return;
+            } else if (gameState === "playing") {
+                // Game logic here
+
+                // Move the player based on keyboard input
+                if (keys[37] && player.x > 0) { // Left arrow
+                    player.x -= player.speed;
+                }
+                if (keys[39] && player.x < canvas.width - player.width) { // Right arrow
+                    player.x += player.speed;
+                }
+                if (keys[38] && player.y > 0) { // Up arrow
+                    player.y -= player.speed;
+                }
+                if (keys[40] && player.y < canvas.height - player.height) { // Down arrow
+                    player.y += player.speed;
+                }
+
+                // Spawn enemies
+                enemySpawnTimer++;
+                if (enemySpawnTimer >= enemySpawnInterval) {
+                    enemySpawnTimer = 0;
+                    var enemy = {
+                        x: canvas.width,
+                        y: Math.random() * (canvas.height - player.height),
+                        width: player.width,
+                        height: player.height
+                    };
+                    enemies.push(enemy);
+                }
+
+                // Move the enemies
+                for (var i = 0; i < enemies.length; i++) {
+                    enemies[i].x -= enemySpeed;
+                }
+
+                // Check for collisions with enemies
+                for (var i = 0; i < enemies.length; i++) {
+                    var enemy = enemies[i];
+                    if (player.x < enemy.x + player.width &&
+                        player.x + player.width > enemy.x &&
+                        player.y < enemy.y + player.height &&
+                        player.y + player.height > enemy.y) {
+                        // Collision detected
+                        gameState = "gameOver";
+                        setTimeout(function() {
+                            location.reload(); // Reload the page after 5 seconds
+                        }, 5000);
+                    }
+                }
+
+                // Remove enemies that go out of the left side of the screen and increase score
+                for (var i = 0; i < enemies.length; i++) {
+                    if (enemies[i].x + player.width < 0) {
+                        enemies.splice(i, 1);
+                        score++; // Increase the player's score
+                    }
+                }
+            } else if (gameState === "gameOver") {
+                // Game over logic here
+                return;
+            }
+        }
+
+        // Function to draw everything on the canvas
+        function draw() {
+            // Clear the canvas
+            ctx.fillStyle = WHITE;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            if (gameState === "menu") {
+                // Draw menu
+                ctx.fillStyle = RED;
+                ctx.fillText("Simple Game", canvas.width / 2 - 100, 100);
+                ctx.fillText("Press SPACE to start", canvas.width / 2 - 150, canvas.height / 2 - 20);
+                ctx.fillText("Press Q to quit", canvas.width / 2 - 100, canvas.height / 2 + 50);
+            } else if (gameState === "playing") {
+                // Draw game
+                drawPlayer();
+                // Draw the enemies
+                for (var i = 0; i < enemies.length; i++) {
+                    drawEnemy(enemies[i]);
+                }
+                // Draw the score
+                ctx.fillStyle = GREEN;
+                ctx.fillText("Score: " + score, 10, 30);
+            } else if (gameState === "gameOver") {
+                // Draw game over screen
+                ctx.fillStyle = RED;
+                ctx.fillText("Game Over", canvas.width / 2 - 100, canvas.height / 2 - 20);
+                ctx.fillText("Final Score: " + score, canvas.width / 2 - 100, canvas.height / 2 + 20);
+            }
+        }
+
+        // Function to handle keyboard input
+        var keys = {};
+        window.addEventListener("keydown", function(event) {
+            keys[event.keyCode] = true;
+            if (gameState === "menu" && event.keyCode === 32) { // Space key
+                gameState = "playing";
+            } else if (gameState === "menu" && event.keyCode === 81) { // Q key
+                location.reload(); // Reload the page if Q is pressed
+            }
+        });
+        window.addEventListener("keyup", function(event) {
+            delete keys[event.keyCode];
+        });
+
+        // Set up the game loop
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+        gameLoop();
+    </script>
+</body>
+</html>
