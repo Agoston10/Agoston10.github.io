@@ -6,7 +6,7 @@
     <title>Simple Game</title>
     <style>
         body {
-            background-color: #26ad90; /* Blueish green background color */
+            background-color: #c5e1a5; /* Blueish green background color */
             margin: 0;
             padding: 0;
             display: flex;
@@ -30,18 +30,30 @@
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        #hiddenButton {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            opacity: 0;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
 <body>
     <div id="gameContainer">
-        <canvas id="gameCanvas" width="1000" height="800"></canvas>
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
         <div id="story">
             <h1>Story</h1>
             <p>Welcome to the Simple Game! You are a brave adventurer exploring a mysterious world filled with danger.</p>
             <p>Your mission is to navigate through the treacherous landscape, avoiding obstacles and enemies along the way.</p>
             <p>Use the arrow keys to move your character. Be careful not to touch any enemies, or it's game over!</p>
             <p>Collect points by surviving as long as you can. How high of a score can you achieve?</p>
+            <div id="hiddenButton"></div>
         </div>
     </div>
     <script>
@@ -63,7 +75,7 @@
             y: canvas.height / 2,
             width: 50,
             height: 50,
-            speed: 2 // Reduced speed
+            speed: 3 // Reduced speed
         };
 
         // Set up enemies
@@ -207,6 +219,11 @@
             requestAnimationFrame(gameLoop);
         }
         gameLoop();
+
+        // Function to handle the hidden button click
+        document.getElementById("hiddenButton").addEventListener("click", function() {
+            window.location.href = "https://www.example.com"; // Replace with your desired URL
+        });
     </script>
 </body>
 </html>
