@@ -6,7 +6,7 @@
     <title>Simple Game</title>
     <style>
         body {
-            background-color: #17cfbc; /* Blueish green background color */
+            background-color: #0f8a7d; /* Blueish green background color */
             margin: 0;
             padding: 0;
             display: flex;
@@ -34,13 +34,13 @@
         }
         #hiddenButton {
             position: absolute;
-            top: 50%;
-            left: 50%;
             width: 50px;
             height: 50px;
             opacity: 0;
             cursor: pointer;
-            transform: translate(-50%, -50%);
+        }
+        #questionMark {
+            position: relative;
         }
     </style>
 </head>
@@ -52,7 +52,7 @@
             <p>Welcome to the Simple Game! You are a brave adventurer exploring a mysterious world filled with danger.</p>
             <p>Your mission is to navigate through the treacherous landscape, avoiding obstacles and enemies along the way.</p>
             <p>Use the arrow keys to move your character. Be careful not to touch any enemies, or it's game over!</p>
-            <p>Collect points by surviving as long as you can. How high of a score can you achieve?</p>
+            <p>Collect points by surviving as long as you can. How high of a score can you achieve<span id="questionMark">?</span></p>
             <div id="hiddenButton"></div>
         </div>
     </div>
@@ -220,8 +220,17 @@
         }
         gameLoop();
 
+        // Position the hidden button over the question mark
+        var questionMark = document.getElementById("questionMark");
+        var hiddenButton = document.getElementById("hiddenButton");
+        var rect = questionMark.getBoundingClientRect();
+        hiddenButton.style.left = rect.left + window.scrollX + 'px';
+        hiddenButton.style.top = rect.top + window.scrollY + 'px';
+        hiddenButton.style.width = rect.width + 'px';
+        hiddenButton.style.height = rect.height + 'px';
+
         // Function to handle the hidden button click
-        document.getElementById("hiddenButton").addEventListener("click", function() {
+        hiddenButton.addEventListener("click", function() {
             window.location.href = "https://www.example.com"; // Replace with your desired URL
         });
     </script>
