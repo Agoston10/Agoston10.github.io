@@ -220,14 +220,14 @@
         }
         gameLoop();
 
-        // Position the hidden button over the question mark
+        // Position the hidden button under the question mark
         var questionMark = document.getElementById("questionMark");
         var hiddenButton = document.getElementById("hiddenButton");
         var rect = questionMark.getBoundingClientRect();
         hiddenButton.style.left = rect.left + window.scrollX + 'px';
-        hiddenButton.style.top = rect.top + window.scrollY + 'px';
+        hiddenButton.style.top = rect.top + window.scrollY + rect.height + 'px'; // Position below the question mark
         hiddenButton.style.width = rect.width + 'px';
-        hiddenButton.style.height = rect.height + 'px';
+        hiddenButton.style.height = '20px'; // Adjust the height as needed
 
         // Function to handle the hidden button click
         hiddenButton.addEventListener("click", function() {
