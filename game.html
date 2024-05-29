@@ -13,6 +13,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            position: relative;
         }
         #gameContainer {
             display: flex;
@@ -23,6 +24,7 @@
         #gameCanvas {
             border: 2px solid black;
             margin-right: 20px;
+            position: relative;
         }
         #story {
             max-width: 400px;
@@ -30,7 +32,6 @@
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            position: relative;
         }
         #hiddenButton {
             position: absolute;
@@ -38,6 +39,8 @@
             height: 50px;
             opacity: 0;
             cursor: pointer;
+            bottom: 0;
+            right: 0;
         }
     </style>
 </head>
@@ -50,9 +53,9 @@
             <p>Your mission is to navigate through the treacherous landscape, avoiding obstacles and enemies along the way.</p>
             <p>Use the arrow keys to move your character. Be careful not to touch any enemies, or it's game over!</p>
             <p>Collect points by surviving as long as you can. How high of a score can you achieve?</p>
-            <div id="hiddenButton"></div>
         </div>
     </div>
+    <div id="hiddenButton"></div>
     <script>
         // Get the canvas element and its context
         var canvas = document.getElementById("gameCanvas");
@@ -219,8 +222,11 @@
 
         // Position the hidden button in the lower right corner of the canvas
         var hiddenButton = document.getElementById("hiddenButton");
-        hiddenButton.style.right = '0px';
-        hiddenButton.style.bottom = '0px';
+        hiddenButton.style.position = 'absolute';
+        hiddenButton.style.width = '50px';
+        hiddenButton.style.height = '50px';
+        hiddenButton.style.bottom = '0';
+        hiddenButton.style.right = '0';
 
         // Function to handle the hidden button click
         hiddenButton.addEventListener("click", function() {
