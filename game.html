@@ -23,7 +23,6 @@
         #gameCanvas {
             border: 2px solid black;
             margin-right: 20px;
-            position: relative;
         }
         #story {
             max-width: 400px;
@@ -39,8 +38,6 @@
             height: 50px;
             opacity: 0;
             cursor: pointer;
-            bottom: 0;
-            left: 0;
         }
     </style>
 </head>
@@ -53,9 +50,9 @@
             <p>Your mission is to navigate through the treacherous landscape, avoiding obstacles and enemies along the way.</p>
             <p>Use the arrow keys to move your character. Be careful not to touch any enemies, or it's game over!</p>
             <p>Collect points by surviving as long as you can. How high of a score can you achieve?</p>
+            <div id="hiddenButton"></div>
         </div>
     </div>
-    <div id="hiddenButton"></div>
     <script>
         // Get the canvas element and its context
         var canvas = document.getElementById("gameCanvas");
@@ -220,8 +217,13 @@
         }
         gameLoop();
 
+        // Position the hidden button in the lower right corner of the canvas
+        var hiddenButton = document.getElementById("hiddenButton");
+        hiddenButton.style.right = '0px';
+        hiddenButton.style.bottom = '0px';
+
         // Function to handle the hidden button click
-        document.getElementById("hiddenButton").addEventListener("click", function() {
+        hiddenButton.addEventListener("click", function() {
             window.location.href = "https://www.example.com"; // Replace with your desired URL
         });
     </script>
