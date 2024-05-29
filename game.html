@@ -6,7 +6,7 @@
     <title>Simple Game</title>
     <style>
         body {
-            background-color: #0f8a7d; /* Blueish green background color */
+            background-color: ##0f8a7d; /* Blueish green background color */
             margin: 0;
             padding: 0;
             display: flex;
@@ -23,6 +23,7 @@
         #gameCanvas {
             border: 2px solid black;
             margin-right: 20px;
+            position: relative;
         }
         #story {
             max-width: 400px;
@@ -38,9 +39,8 @@
             height: 50px;
             opacity: 0;
             cursor: pointer;
-        }
-        #questionMark {
-            position: relative;
+            bottom: 0;
+            left: 0;
         }
     </style>
 </head>
@@ -52,10 +52,10 @@
             <p>Welcome to the Simple Game! You are a brave adventurer exploring a mysterious world filled with danger.</p>
             <p>Your mission is to navigate through the treacherous landscape, avoiding obstacles and enemies along the way.</p>
             <p>Use the arrow keys to move your character. Be careful not to touch any enemies, or it's game over!</p>
-            <p>Collect points by surviving as long as you can. How high of a score can you achieve<span id="questionMark">?</span></p>
-            <div id="hiddenButton"></div>
+            <p>Collect points by surviving as long as you can. How high of a score can you achieve?</p>
         </div>
     </div>
+    <div id="hiddenButton"></div>
     <script>
         // Get the canvas element and its context
         var canvas = document.getElementById("gameCanvas");
@@ -220,17 +220,8 @@
         }
         gameLoop();
 
-        // Position the hidden button under the question mark
-        var questionMark = document.getElementById("questionMark");
-        var hiddenButton = document.getElementById("hiddenButton");
-        var rect = questionMark.getBoundingClientRect();
-        hiddenButton.style.left = rect.left + window.scrollX + 'px';
-        hiddenButton.style.top = rect.top + window.scrollY + rect.height + 'px'; // Position below the question mark
-        hiddenButton.style.width = rect.width + 'px';
-        hiddenButton.style.height = '20px'; // Adjust the height as needed
-
         // Function to handle the hidden button click
-        hiddenButton.addEventListener("click", function() {
+        document.getElementById("hiddenButton").addEventListener("click", function() {
             window.location.href = "https://www.example.com"; // Replace with your desired URL
         });
     </script>
