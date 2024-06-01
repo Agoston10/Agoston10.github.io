@@ -14,6 +14,7 @@
             align-items: center;
             height: 100vh;
             position: relative;
+            flex-direction: column; /* Default to column layout */
         }
         #gameContainer {
             display: flex;
@@ -37,10 +38,27 @@
             position: absolute;
             width: 50px;
             height: 50px;
-            background-color: rgba(255, 0, 0, 0); /* Semi-transparent red */
+            background-color: rgba(255, 0, 0, 0.5); /* Semi-transparent red */
             cursor: pointer;
             bottom: 0;
             right: 0;
+        }
+        /* Media query for mobile devices */
+        @media (max-width: 600px) {
+            body {
+                flex-direction: column;
+            }
+            #gameContainer {
+                flex-direction: column;
+            }
+            #gameCanvas {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            #hiddenButton {
+                bottom: 10px;
+                right: 10px;
+            }
         }
     </style>
 </head>
@@ -57,6 +75,24 @@
     </div>
     <div id="hiddenButton"></div>
     <script>
+        // JavaScript to adjust layout for mobile devices
+        function adjustLayoutForMobile() {
+            var hiddenButton = document.getElementById("hiddenButton");
+            if (window.innerWidth <= 600) {
+                hiddenButton.style.position = 'fixed';
+                hiddenButton.style.bottom = '10px';
+                hiddenButton.style.right = '10px';
+            } else {
+                hiddenButton.style.position = 'absolute';
+                hiddenButton.style.bottom = '0';
+                hiddenButton.style.right = '0';
+            }
+        }
+
+        // Run on page load and resize
+        window.onload = adjustLayoutForMobile;
+        window.onresize = adjustLayoutForMobile;
+
         // Get the canvas element and its context
         var canvas = document.getElementById("gameCanvas");
         var ctx = canvas.getContext("2d");
@@ -230,7 +266,7 @@
 
         // Function to handle the hidden button click
         hiddenButton.addEventListener("click", function() {
-            window.location.href = "https://www.example.com"; // Replace with your desired URL
+            window.location.href = "https://agoston10.github.io/Agoston100.github.io/fishies.html"; // Replace with your desired URL
         });
     </script>
 </body>
